@@ -1,0 +1,16 @@
+{% extends 'header.html' %}
+
+{% block title %}Магазин{% endblock %}
+
+{% block content %}
+    <h1>Товары</h1>
+    <div class="row">
+        {% for object in object_list %}
+            <div>
+                <p>{{ object.product_name }}</p>
+                <p>{{ object.product_desc }}</p>
+                <img src="{{ object.product_pic }}" width="150" height="120"/>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
