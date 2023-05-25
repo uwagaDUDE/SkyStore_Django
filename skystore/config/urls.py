@@ -18,9 +18,11 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from Sky_store.views import store_page
+from Sky_store.views import ProductStore, start_page
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', store_page)
+    path('', start_page),
+    path('store/', ProductStore.as_view())
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

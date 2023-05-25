@@ -9,12 +9,13 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from dotenv import load_dotenv, dotenv_values
 from pathlib import Path
 import os
+load_dotenv()
+secret = dotenv_values('../.env')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -79,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'shop',
-        'USER':'postgres',
-        'PASSWORD':'5772'
+        'USER': 'postgres', #secret['DB_USER'],
+        'PASSWORD':'5772' #secret['DB_PASSWORD']
 
     }
 }
@@ -123,9 +124,16 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'imap.gmail.com'
+EMAIL_PORT = 993
+EMAIL_HOST_USER = 'puvir00@gmail.com'#secret['SEND_EMAIL']
+EMAIL_HOST_PASSWORD = 'SonyaIloveU2281337!'#secret['SEND_EMAIL_PASSWORD']
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
