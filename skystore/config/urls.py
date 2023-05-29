@@ -24,5 +24,6 @@ from Sky_store.views import ProductStore, start_page
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', start_page),
-    path('store/', ProductStore.as_view())
+    path('store/', ProductStore.as_view()),
+
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

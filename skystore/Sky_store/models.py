@@ -17,3 +17,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Продукты'
         ordering = ('id',)
+
+class PageView(models.Model):
+    page_url = models.URLField()
+    view_date = models.DateTimeField(auto_now_add=True)
