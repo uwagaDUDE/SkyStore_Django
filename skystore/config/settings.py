@@ -131,8 +131,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'imap.gmail.com'
-EMAIL_PORT = 993
+EMAIL_HOST = 'smtp.rambler.ru'
+EMAIL_PORT = 465
 EMAIL_HOST_USER = os.getenv('SEND_EMAIL')#secret['SEND_EMAIL']
 EMAIL_HOST_PASSWORD = os.getenv('SEND_EMAIL_PASSWORD')#secret['SEND_EMAIL_PASSWORD']
 EMAIL_USE_SSL = True

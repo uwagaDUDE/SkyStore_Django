@@ -1,0 +1,14 @@
+{% extends 'header.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <article>
+        <h1>{{ post.title }}</h1>
+        <p>Дата публикации: {{ post.published_date }}</p>
+        <p>Просмотры: {{ page_views }}</p>
+        <p>{{ post.content }}</p>
+        <p>{{ post.preview }}</p>
+        <p><a href="blog/"><button type="button">Назад</button></a></p>
+    </article>
+{% endblock %}

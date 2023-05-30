@@ -1,0 +1,19 @@
+{% extends 'header.html' %}
+
+{% block title %}Блог нашего магазина{% endblock %}
+
+{% block content %}
+    <h1>Блог</h1>
+    <a href="{% url 'home' %}"><button type="button">На главную</button></a>
+    {% for post in posts %}
+    <article>
+        <h2>{% if post.slug %}<a href="{% url 'blog_post_detail' slug=post.slug %}">{% endif %}{{ post.title }}{% if post.slug %}</a>{% endif %}</h2>
+        <p>{{ post.preview }}</p>
+        <p>Дата публикации: {{ post.published_date }}</p>
+        <p>Просмотров: {{ post.views_count }}</p>
+
+    </article>
+{% empty %}
+    <p>Пока никаких постов :(</p>
+{% endfor %}
+{% endblock %}

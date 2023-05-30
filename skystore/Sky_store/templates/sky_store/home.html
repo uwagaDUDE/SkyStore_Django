@@ -7,6 +7,9 @@
     <div class="row">
             <div>
                 <a href="store"><button type="button">Перейти к товарам</button></a>
+                <a href="blog/"><button type="button">Перейти в блог</button></a>
+                <a href="{% url 'create_blog_post' %}">
+                    <button type="button">Опубликовать новый пост</button></a>
             </div>
     </div>
 {% endblock %}

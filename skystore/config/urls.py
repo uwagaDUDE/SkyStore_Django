@@ -18,12 +18,19 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from Sky_store.views import ProductStore, start_page
+from Sky_store.views import ProductStore, start_page, BlogListView, \
+    BlogPostDetailView, BlogPostCreateView, BlogPostUpdateView, BlogPostDeleteView
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', start_page),
+    path('', start_page, name='home'),
     path('store/', ProductStore.as_view()),
+    path('blog/', BlogListView.as_view(), name='blog'),
+    path('<slug:slug>', BlogPostDetailView.as_view(), name='blog_post_detail'),
+    path('create/', BlogPostCreateView.as_view(), name='create_blog_post'),
+    path('<slug:slug>/update/', BlogPostUpdateView.as_view(), name='update_blog_post'),
+    path('<slug:slug>/delete/', BlogPostDeleteView.as_view())
 
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

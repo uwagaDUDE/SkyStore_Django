@@ -1,19 +1,23 @@
 from django.shortcuts import render
-from Sky_store.models import Product, PageView
-from django.views.generic import ListView, TemplateView
+from Sky_store.models import Product, PageView, BlogPost
+from django.views.generic import ListView, TemplateView, \
+    DetailView, UpdateView, DeleteView, CreateView
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 
 
 def start_page(request):
     return render(request, 'sky_store/home.html')
 
 
-def send_email():
-    subject = "ВЫ НАШ 100 ПОСЕТИТЕЛЬ!"
-    message = "ПОЗДРАВЛЯЕМ! ВЫ НАШ 100 ПОКУПАТЕЛЬ! ВАМ ДАЕТСЯ СКИДКА В 100% НА ЛЮБОЙ ТОВАР!"
-    from_email = 'puvir00@gmail.com'
-    recipient_list = ['puvir@yandex.ru'] # Список адресов получателей
+def store_visitors():
+    subject = ".:. Поздравляем! Вы стали 100-тым посетителем нашего магазина! .:."
+    message = "Загляните в письмо, чтобы узнать что вас ждет :)\n" \
+              "А ждет вас:\n" \
+              "1 бесплатный товар на выбор и пожизненная скидка 10% в нашем магазине!"
+    from_email = 'sky_store@rambler.ru'
+    recipient_list = ['machodin@yandex.ru'] # Список адресов получателей
     send_mail(subject, message, from_email, recipient_list)
 
 
@@ -26,8 +30,8 @@ def counted(view_func):
 
         page_views = PageView.objects.filter(page_url=page_url).count()
 
-        if page_views == 50:
-            send_email()
+        if page_views == 100:
+            pass
 
         return view_func(request, *args, **kwargs)
     return wrapper
@@ -48,12 +52,64 @@ class ProductStore(ListView):
         page_views = PageView.objects.filter(page_url=page_url).count()
 
         if page_views == 100:
-            send_email()  # Отправляем письмо
+            store_visitors()  # Отправляем письмо
 
         context['page_views'] = page_views
         return context
 
+class BlogListView(ListView):
+    '''
+    Список блогов, сортировканный по дате
+    '''
+    model = BlogPost
+    context_object_name = 'posts'
+    template_name = 'blog.html'
+    queryset = BlogPost.objects.filter(is_published=True)
+    ordering = ['-published_date']
 
+class BlogPostDetailView(DetailView):
+    model = BlogPost
+    template_name = 'blog_post_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        """
+        Вызовется при GET запросе к детальной информации поста в блоге.
+        """
+        self.object = self.get_object()
+        # инкрементируем счетчик просмотров
+        self.object.views_count += 1
+        self.object.save()
+        context = self.get_context_data(object=self.object, page_views=self.object.views_count)
+        return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        context = super(BlogPostDetailView, self).get_context_data(**kwargs)
+        context['page_views'] = kwargs['page_views']
+        return context
+class BlogPostCreateView(CreateView):
+    '''
+    Вьюшка создания
+    '''
+    model = BlogPost
+    template_name = 'create_blog_post.html'
+    fields = ['title', 'content', 'preview', 'is_published']
+
+
+class BlogPostUpdateView(UpdateView):
+    '''
+    Вьюшка редактирования
+    '''
+    model = BlogPost
+    template_name = 'update_blog_post.html'
+    fields = ['title', 'content', 'preview', 'is_published']
+
+class BlogPostDeleteView(DeleteView):
+    '''
+    Вьюшка удаления
+    '''
+    model = BlogPost
+    template_name = 'delete_blog_post.html'
+    success_url = reverse_lazy('blog')
 
 
 

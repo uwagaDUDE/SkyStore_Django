@@ -1,0 +1,12 @@
+{% extends 'header.html' %}
+
+{% block title %}Новый пост в блог{% endblock %}
+
+{% block content %}
+    <h1>Опубликовать новый пост</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Опубликовать</button>
+    </form>
+{% endblock %}
