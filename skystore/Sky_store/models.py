@@ -15,12 +15,14 @@ class Product(models.Model):
     product_mk = models.CharField(max_length=100, verbose_name='Дата создания')
     product_ed = models.CharField(max_length=100, verbose_name='Дата изменения')
 
+
     def __str__(self):
         return f'{self.product_name} {self.product_price} {self.product_cat}'
 
     class Meta:
         verbose_name = 'Продукты'
         ordering = ('id',)
+
 
 class PageView(models.Model):
     page_url = models.URLField()

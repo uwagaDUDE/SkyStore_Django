@@ -6,10 +6,11 @@
     <h1>Это домашняя страница магазина :)</h1>
     <div class="row">
             <div>
-                <a href="store"><button type="button">Перейти к товарам</button></a>
+                <a href="store/"><button type="button">Перейти к товарам</button></a>
                 <a href="blog/"><button type="button">Перейти в блог</button></a>
                 <a href="{% url 'create_blog_post' %}">
                     <button type="button">Опубликовать новый пост</button></a>
+                <a href="{% url 'new' %}"> <button type="button">Добавить товар</button> </a>
             </div>
     </div>
 {% endblock %}

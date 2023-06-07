@@ -1,10 +1,33 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from Sky_store.models import Product, PageView, BlogPost
 from django.views.generic import ListView, TemplateView, \
     DetailView, UpdateView, DeleteView, CreateView
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
+from Sky_store.forms import NewProductForm
+from Sky_store.models import Product
+from django.http import HttpResponse
+
+
+def add_product(request):
+    banned_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево',
+                        'бесплатно', 'обман', 'полиция', 'радар']
+    if request.method == 'POST':
+        form = NewProductForm(request.POST, request.FILES)
+        name = request.POST.get('product_name')
+        description = request.POST.get('product_desc')
+        if name not in banned_words and description not in banned_words:
+            if form.is_valid():
+                form.save()
+                return redirect('store')
+        else:
+            return render(request, 'error.html', {'message':'Используются запрещенные слова, товар небыл добавлен'})
+    else:
+        form = NewProductForm()
+    return render(request, 'new_product.html', {'form': form})
+
+
 
 
 def start_page(request):
