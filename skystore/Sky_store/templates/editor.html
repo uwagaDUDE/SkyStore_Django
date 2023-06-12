@@ -1,0 +1,10 @@
+{% extends "header.html" %}
+
+{% block content %}
+  <h2>Добавить продукт в магазин</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Подтвердить</button>
+  </form>
+{% endblock %}

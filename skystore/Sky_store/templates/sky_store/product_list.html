@@ -3,7 +3,8 @@
 {% block title %}Магазин{% endblock %}
 
 {% block content %}
-    <h1>Товары</h1>
+    <h2>Товары</h2>
+    <a href="{% url 'editor' %}"><button type="button">Редактор товаров</button></a>
     <p>Наш магазин посещали {{ page_views }} раз!</p>
     <div class="row">
         {% for object in object_list %}
@@ -11,6 +12,7 @@
                 <p>{{ object.product_name }}</p>
                 <p>{{ object.product_desc }}</p>
                 <img src="{{ object.product_pic }}" width="150" height="120"/>
+                <p><a href='{% url "editor" %}'>Редактировать</a></p>
             </div>
         {% endfor %}
 

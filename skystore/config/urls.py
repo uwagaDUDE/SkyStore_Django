@@ -19,7 +19,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from Sky_store.views import ProductStore, start_page, BlogListView, \
-    BlogPostDetailView, BlogPostCreateView, BlogPostUpdateView, BlogPostDeleteView, add_product
+    BlogPostDetailView, BlogPostCreateView, BlogPostUpdateView, \
+    BlogPostDeleteView, add_product, edit_product
 
 
 
@@ -32,6 +33,8 @@ urlpatterns = [
     path('create/', BlogPostCreateView.as_view(), name='create_blog_post'),
     path('<slug:slug>/update/', BlogPostUpdateView.as_view(), name='update_blog_post'),
     path('<slug:slug>/delete/', BlogPostDeleteView.as_view()),
-    path('new_product/', add_product, name='new')
+    path('new_product/', add_product, name='new'),
+    path('editor/', edit_product, name='editor'),
+    path('editor/<int:id>/', edit_product, name='edit_product')
 
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

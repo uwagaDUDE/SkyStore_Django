@@ -1,14 +1,26 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from Sky_store.models import Product, PageView, BlogPost
 from django.views.generic import ListView, TemplateView, \
     DetailView, UpdateView, DeleteView, CreateView
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from Sky_store.forms import NewProductForm
-from Sky_store.models import Product
+from Sky_store.forms import NewProductForm, ProductEditor
+from Sky_store.models import Product, ProdVersion
 from django.http import HttpResponse
 
+
+def edit_product(request, id=id):
+    product = Product.objects.get(pk=id)
+    current_version = ProdVersion.objects.filter(product=product).latest('created_at')
+    version_number = current_version.version_number
+    form = ProductForm(instance=product) 
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('store', product_id=product.product_id)
+    return render(request, 'editor.html', {'form': form, 'product_name': product})
 
 def add_product(request):
     banned_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево',
