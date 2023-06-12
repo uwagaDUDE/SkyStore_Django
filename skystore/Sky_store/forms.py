@@ -15,8 +15,11 @@ class ProductEditor(forms.ModelForm):
         product = super().save(commit=False)
         if commit:
             product.save()
-            version_update = ProdVersion(product=product,
-                                         version_num=product.version_cur.version_num +1)
+            if product.version_cur:
+                version_update = ProdVersion(product=product,
+                                             version_num=product.version_cur.version_num +1)
+            else:
+                version_update = ProdVersion(product=product, version_num=1)
             version_update.save()
             product.version_cur = version_update
             product.save()

@@ -12,6 +12,7 @@ class Product(models.Model):
     product_price = models.IntegerField(verbose_name='Цена')
     product_mk = models.CharField(max_length=100, verbose_name='Дата создания')
     product_ed = models.CharField(max_length=100, verbose_name='Дата изменения')
+    version_cur = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.product_name} {self.product_price} {self.product_cat}'
