@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
+from django.utils import timezone
 # Create your models here.
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
@@ -23,6 +24,7 @@ class ProdVersion(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     version_num = models.IntegerField()
     version_cur = models.BooleanField(default=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
 class PageView(models.Model):
     page_url = models.URLField()

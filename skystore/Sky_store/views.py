@@ -10,13 +10,16 @@ from Sky_store.models import Product, ProdVersion
 from django.http import HttpResponse
 
 
-def edit_product(request, id=id):
-    product = Product.objects.get(pk=id)
-    current_version = ProdVersion.objects.filter(product=product).latest('created_at')
-    version_number = current_version.version_number
-    form = ProductForm(instance=product) 
+def edit_product(request, id=None):
+    product = get_object_or_404(Product, id=id)
+    try:
+        current_version = ProdVersion.objects.filter(product=product).latest('created_at')
+    except ProdVersion.DoesNotExist:
+        current_version = ProdVersion.objects.create(product=product, version_num=1)
+    version_number = current_version.version_num
+    form = ProductEditor(instance=product)
     if request.method == 'POST':
-        form = ProductForm(request.POST, instance=product)
+        form = ProductEditor(request.POST, instance=product)
         if form.is_valid():
             form.save()
             return redirect('store', product_id=product.product_id)
