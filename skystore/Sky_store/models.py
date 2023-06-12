@@ -10,9 +10,10 @@ class Product(models.Model):
     product_pic = models.ImageField(verbose_name='Картинка', null=True, blank=True, upload_to='media/products')
     product_cat = models.CharField(max_length=100, verbose_name='Категория')
     product_price = models.IntegerField(verbose_name='Цена')
-    product_mk = models.CharField(max_length=100, verbose_name='Дата создания')
-    product_ed = models.CharField(max_length=100, verbose_name='Дата изменения')
+    product_mk = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
+    product_ed = models.DateTimeField(default=timezone.now, verbose_name='Дата изменения')
     version_cur = models.BooleanField(default=True)
+    version_num = models.IntegerField()
 
     def __str__(self):
         return f'{self.product_name} {self.product_price} {self.product_cat}'
