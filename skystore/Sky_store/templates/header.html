@@ -7,6 +7,12 @@
     <div style="text-align: center;">
         <h1>SKYSTORE</h1>
         <h2><a href="{% url 'home' %}"><button type="button">Домашняя страница</button></a></h2>
+        {% if user.is_authenticated %}
+        <h2><a href="{% url 'users:logout' %}"><button type="button">Выйти</button></a></h2>
+        {% else %}
+        <h2><a href="{% url 'users:login' %}"><button type="button">Авторизация</button></a></h2>
+        <h2><a href="{% url 'users:reg' %}"><button type="button">Регистрация</button></a></h2>
+        {% endif %}
         {% block content %}{% endblock %}
     </div>
 </body>

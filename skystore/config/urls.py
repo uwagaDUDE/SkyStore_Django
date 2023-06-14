@@ -35,6 +35,7 @@ urlpatterns = [
     path('<slug:slug>/delete/', BlogPostDeleteView.as_view()),
     path('new_product/', add_product, name='new'),
     path('editor/', edit_product, name='editor'),
-    path('editor/<int:id>/', edit_product, name='edit_product')
+    path('editor/<int:id>/', edit_product, name='edit_product'),
+    path('users/', include('users.urls', namespace='users'))
 
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

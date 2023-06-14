@@ -1,3 +1,4 @@
+import django.contrib.auth.base_user
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
@@ -63,4 +64,3 @@ class BlogPost(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog_post_detail', kwargs={'slug': self.slug})
-

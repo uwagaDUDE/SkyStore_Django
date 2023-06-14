@@ -1,0 +1,11 @@
+{% extends "header.html" %}
+
+{% block content %}
+  <h2>Авторизация</h2>
+  <form method="post" enctype="multipart/form-data">
+    <div class="col-3"></div>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Войти</button>
+  </form>
+{% endblock %}
