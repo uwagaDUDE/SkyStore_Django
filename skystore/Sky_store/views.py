@@ -22,7 +22,7 @@ def edit_product(request, id=None):
         form = ProductEditor(request.POST, instance=product)
         if form.is_valid():
             form.save()
-            return redirect('store', product_id=product.product_id)
+            return redirect('store')
     return render(request, 'editor.html', {'form': form, 'product_name': product})
 
 def add_product(request):

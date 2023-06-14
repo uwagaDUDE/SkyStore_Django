@@ -9,9 +9,10 @@
     <div class="row">
         {% for object in object_list %}
             <div>
-                <p>{{ object.product_name }}</p>
-                <p>{{ object.product_desc }}</p>
-                <img src="{{ object.product_pic }}" width="150" height="120"/>
+                <p>Товар: {{ object.product_name }}</p>
+                <p>Описание: {{ object.product_desc }}</p>
+                <p>Цена за единицу: {{ object.product_price }} рублей</p>
+                <img src="{{ object.product_pic }}" width="150" height="120" />
                 <p><a href='{% url "edit_product" object.id %}'>Редактировать</a></p>
             </div>
         {% endfor %}

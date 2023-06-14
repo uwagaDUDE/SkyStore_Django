@@ -21,12 +21,12 @@ class ProductEditor(forms.ModelForm):
         if commit:
             product.save()
             if product.version_cur:
-                version_update = ProdVersion(product=product,
-                                             version_num=product.version_cur.version_num +1)
+                latest_version = ProdVersion.objects.filter(product=product).latest('created_at')
+                version_update = ProdVersion(product=product, version_num=latest_version.version_num + 1)
             else:
                 version_update = ProdVersion(product=product, version_num=1)
             version_update.save()
-            product.version_cur = version_update
-            product.version_num = product.version_cur.version_num +1
+            product.version_cur = True
+            product.version_num = version_update.version_num
             product.save()
         return product
