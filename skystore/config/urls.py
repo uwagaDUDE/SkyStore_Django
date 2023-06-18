@@ -18,11 +18,10 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from django.contrib.auth.decorators import login_required
 from Sky_store.views import ProductStore, start_page, BlogListView, \
     BlogPostDetailView, BlogPostCreateView, BlogPostUpdateView, \
-    BlogPostDeleteView, add_product, edit_product
-
-
+    BlogPostDeleteView, add_product, edit_product, version_history
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,12 +29,13 @@ urlpatterns = [
     path('store/', ProductStore.as_view(), name='store'),
     path('blog/', BlogListView.as_view(), name='blog'),
     path('<slug:slug>', BlogPostDetailView.as_view(), name='blog_post_detail'),
-    path('create/', BlogPostCreateView.as_view(), name='create_blog_post'),
-    path('<slug:slug>/update/', BlogPostUpdateView.as_view(), name='update_blog_post'),
-    path('<slug:slug>/delete/', BlogPostDeleteView.as_view()),
-    path('new_product/', add_product, name='new'),
-    path('editor/', edit_product, name='editor'),
-    path('editor/<int:id>/', edit_product, name='edit_product'),
-    path('users/', include('users.urls', namespace='users'))
-
+    path('create/', login_required(BlogPostCreateView.as_view()), name='create_blog_post'),
+    path('<slug:slug>/update/', login_required(BlogPostUpdateView.as_view()), name='update_blog_post'),
+    path('<slug:slug>/delete/', login_required(BlogPostDeleteView.as_view())),
+    path('new_product/', login_required(add_product), name='new'),
+    path('editor/', login_required(edit_product), name='editor'),
+    path('editor/<int:product_id>/', login_required(edit_product), name='edit_product'),
+    path('users/', include('users.urls', namespace='users')),
+    path('users/', include('django.contrib.auth.urls')),
+    path('history/', version_history, name='history')
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

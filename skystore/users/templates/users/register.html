@@ -3,9 +3,10 @@
 {% block content %}
   <h2>Регистрация</h2>
   <form method="post" enctype="multipart/form-data">
-    <div class="col-3"></div>
-    {% csrf_token %}
-    {{ form.as_p }}
+    <div class="col-3" style="text-align: left;">
+      {% csrf_token %}
+      {{ form.as_p }}
+    </div>
     <button type="submit">Зарегестрироваться</button>
   </form>
 {% endblock %}

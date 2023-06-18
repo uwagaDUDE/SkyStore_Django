@@ -5,39 +5,50 @@ from django.views.generic import ListView, TemplateView, \
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from Sky_store.forms import NewProductForm, ProductEditor
+from Sky_store.forms import NewProductForm, ProductEditor, ProdVersionForm
 from Sky_store.models import Product, ProdVersion
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import HttpResponse
 
 
-def edit_product(request, id=None):
-    product = get_object_or_404(Product, id=id)
-    try:
-        current_version = ProdVersion.objects.filter(product=product).latest('created_at')
-    except ProdVersion.DoesNotExist:
-        current_version = ProdVersion.objects.create(product=product, version_num=1)
-    version_number = current_version.version_num
-    form = ProductEditor(instance=product)
+def edit_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    app_messages = messages.get_messages(request)
     if request.method == 'POST':
-        form = ProductEditor(request.POST, instance=product)
+        form = ProductEditor(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
             return redirect('store')
-    return render(request, 'editor.html', {'form': form, 'product_name': product})
+    else:
+        form = ProductEditor(instance=product)
+    return render(request, 'editor.html', {'form': form, 'product_name': product.product_name, 'product': product})
 
+def version_history(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    versions = ProdVersion.objects.filter(product=product).order_by('-created_at')
+
+    context = {
+        'product_name': product.name,
+        'versions': versions
+    }
+
+    return render(request, 'version_history.html', context)
+
+@login_required
 def add_product(request):
     banned_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево',
-                        'бесплатно', 'обман', 'полиция', 'радар']
+                    'бесплатно', 'обман', 'полиция', 'радар']
     if request.method == 'POST':
         form = NewProductForm(request.POST, request.FILES)
         name = request.POST.get('product_name')
         description = request.POST.get('product_desc')
-        if name not in banned_words and description not in banned_words:
+        if name.lower() not in banned_words and description.lower() not in banned_words:
             if form.is_valid():
-                form.save()
+                form.save(user=request.user)
                 return redirect('store')
         else:
-            return render(request, 'error.html', {'message':'Используются запрещенные слова, товар небыл добавлен'})
+            return render(request, 'error.html', {'message': 'Используются запрещенные слова, товар не был добавлен'})
     else:
         form = NewProductForm()
     return render(request, 'new_product.html', {'form': form})

@@ -1,10 +1,17 @@
-{% extends "header.html" %}
+{% extends 'header.html' %}
 
 {% block content %}
-  <h2>Добавить продукт в магазин</h2>
-  <form method="post" enctype="multipart/form-data">
+
+<h1>Редактирование продукта: {{ product_name }}</h1>
+
+<form method="post" enctype="multipart/form-data" action="{% url 'edit_product' product.id %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Подтвердить</button>
-  </form>
-{% endblock %}
+    <div class="form-group">
+        <label for="id_version_num">Версия продукта</label>
+        {{ form.version }}
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{% url 'store' %}" class="btn btn-outline-primary">Назад</a>
+</form>
+{% endblock content %}

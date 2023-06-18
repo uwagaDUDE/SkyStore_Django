@@ -8,9 +8,15 @@
             <div>
                 <a href="store/"><button type="button">Перейти к товарам</button></a>
                 <a href="blog/"><button type="button">Перейти в блог</button></a>
+
+                {% if user.is_authenticated %}
+                <a href="{% url 'new' %}"> <button type="button">Добавить товар</button> </a>
                 <a href="{% url 'create_blog_post' %}">
                     <button type="button">Опубликовать новый пост</button></a>
-                <a href="{% url 'new' %}"> <button type="button">Добавить товар</button> </a>
+                {% else %}
+                <a href="{% url 'users:login' %}"> <button type="button">Добавить товар</button> </a>
+                <a href="{% url 'users:login' %}"> <button type="button">Опубликовать новый пост</button> </a>
+                {% endif %}
             </div>
     </div>
 {% endblock %}

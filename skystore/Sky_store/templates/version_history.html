@@ -1,0 +1,39 @@
+{% extends 'header.html' %}
+
+{% block content %}
+
+<h1>История версий продукта: {{ product_name }}</h1>
+
+{% if versions %}
+<ul>
+{% for version in versions %}
+    <li>
+        <a href="{% url 'edit_product' product_id=product.id version_num=version.version_num %}">
+            Версия {{ version.version_num }}, {{ version.created_at }}
+        </a>
+    </li>
+{% endfor %}
+</ul>
+{% else %}
+    <p>Нет доступных версий для данного продукта.</p>
+{% endif %}
+
+<a href="{% url 'store' %}" class="btn btn-outline-primary">Назад</a>
+
+{% endblock %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if versions %}
+        <div class="form-group">
+            <label for="id_version_num">Выберите версию</label>
+            <select name="version_num" class="form-control">
+                {% for version in versions %}
+                    <option value="{{ version.version_num }}">{{ version.version_num }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    {% endif %}
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{% url 'store' %}" class="btn btn-outline-primary">Назад</a>
+</form>
