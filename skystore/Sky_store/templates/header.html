@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}SkyStore{% endblock %}</title>
 </head>
 <body>
     <div style="text-align: center;">
         <h1>SKYSTORE</h1>
         <h2><a href="{% url 'home' %}"><button type="button">Домашняя страница</button></a></h2>
+    </div>
+     <div style="text-align: center;">
         {% if user.is_authenticated %}
         <h2>Здравствуйте, {{ user.email }}!</h2>
-        <h2><a href="{% url 'users:logout' %}"><button type="button">Выйти</button></a></h2>
+        <a href="{% url 'users:logout' %}"><button type="button">Выйти</button></a>
         {% else %}
-        <h2><a href="{% url 'users:login' %}"><button type="button">Авторизация</button></a></h2>
-        <h2><a href="{% url 'users:reg' %}"><button type="button">Регистрация</button></a></h2>
+        <a href="{% url 'users:login' %}"><button type="button">Авторизация</button></a>
+        <a href="{% url 'users:reg' %}"><button type="button">Регистрация</button></a>
         {% endif %}
         {% block content %}{% endblock %}
-    </div>
+     </div>
 </body>
 </html>

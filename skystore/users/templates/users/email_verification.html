@@ -1,0 +1,11 @@
+{% extends 'header.html' %}
+
+{% block content %}
+  <h2>Подтвердите ваш электронный адрес</h2>
+  <p>Мы отправили вам электронное письмо с кодом подтверждения. Введите код ниже, чтобы завершить регистрацию.</p>
+  <form method="post" action="{% url 'users:confirm_email' id=id %}">
+    {% csrf_token %}
+    <input type="text" name="verif_code" placeholder="Введите код подтверждения">
+    <button type="submit">Подтвердить</button>
+</form>
+{% endblock %}

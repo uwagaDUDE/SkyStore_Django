@@ -18,6 +18,7 @@ class ProductEditor(forms.ModelForm):
     version = forms.IntegerField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
+
         model = Product
         fields = ('product_name', 'product_desc', 'product_price', 'product_pic')
 

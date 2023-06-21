@@ -37,5 +37,5 @@ urlpatterns = [
     path('editor/<int:product_id>/', login_required(edit_product), name='edit_product'),
     path('users/', include('users.urls', namespace='users')),
     path('users/', include('django.contrib.auth.urls')),
-    path('history/', version_history, name='history')
+    path('history/', version_history, name='history'),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

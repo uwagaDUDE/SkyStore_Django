@@ -123,7 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
+DATABASES['default']['ATOMIC_REQUESTS'] = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '')
 AUTH_USER_MODEL = 'users.User'
@@ -139,9 +139,9 @@ ACCOUNT_UNIQUE_EMAIL = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.rambler.ru'
+EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = os.getenv('SEND_EMAIL')#secret['SEND_EMAIL']
-EMAIL_HOST_PASSWORD = os.getenv('SEND_EMAIL_PASSWORD')#secret['SEND_EMAIL_PASSWORD']
+EMAIL_HOST_USER = 'skystoremessage'
+EMAIL_HOST_PASSWORD = 'nakveznurmexuvkf'
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
